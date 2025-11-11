@@ -1,44 +1,65 @@
 import requests
 import streamlit as st
+import os
+
+# Use deployed API URL
+API_URL = os.getenv("API_URL", "https://langserve-creative-ai.onrender.com")
 
 def get_essay_response(input_text):
-    response = requests.post(
-        "http://localhost:8000/essay/invoke",
-        json={'input': {'topic': input_text}}
-    )
-    return response.json()['output']['content']
+    try:
+        response = requests.post(
+            f"{API_URL}/essay/invoke",
+            json={'input': {'topic': input_text}},
+            timeout=30
+        )
+        response.raise_for_status()
+        return response.json()['output']['content']
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 def get_poem_response(input_text):
-    response = requests.post(
-        "http://localhost:8000/poem/invoke",
-        json={'input': {'topic': input_text}}
-    )
-    return response.json()['output']['content']
+    try:
+        response = requests.post(
+            f"{API_URL}/poem/invoke",
+            json={'input': {'topic': input_text}},
+            timeout=30
+        )
+        response.raise_for_status()
+        return response.json()['output']['content']
+    except Exception as e:
+        return f"Error: {str(e)}"
 
-st.title("Langchain Gemini API Demo")
+st.set_page_config(page_title="LangServe Creative AI", page_icon="✨")
+
+st.title("✨ LangServe Creative AI")
+st.markdown("*Transform Ideas into Essays & Poems with AI Magic* 🎭")
 
 # Essay Section
 st.subheader("📝 Essay Generator")
-essay_topic = st.text_input("Enter a topic for the essay:", key="essay")
+essay_topic = st.text_input("Enter a topic for the essay:", key="essay", placeholder="e.g., Artificial Intelligence")
 
 if essay_topic:
-    with st.spinner("Generating essay..."):
-        try:
-            essay = get_essay_response(essay_topic)
-            st.write("**Essay:**")
-            st.write(essay)
-        except Exception as e:
-            st.error(f"Error: {str(e)}")
+    with st.spinner("🤖 Generating essay..."):
+        essay = get_essay_response(essay_topic)
+        st.markdown("### Your Essay:")
+        st.write(essay)
+        st.divider()
 
 # Poem Section
 st.subheader("🎨 Poem Generator")
-poem_topic = st.text_input("Enter a topic for the poem:", key="poem")
+poem_topic = st.text_input("Enter a topic for the poem:", key="poem", placeholder="e.g., Nature")
 
 if poem_topic:
-    with st.spinner("Generating poem..."):
-        try:
-            poem = get_poem_response(poem_topic)
-            st.write("**Poem:**")
-            st.write(poem)
-        except Exception as e:
-            st.error(f"Error: {str(e)}")
+    with st.spinner("✍️ Crafting poem..."):
+        poem = get_poem_response(poem_topic)
+        st.markdown("### Your Poem:")
+        st.write(poem)
+
+# Footer
+st.divider()
+st.markdown("""
+<div style='text-align: center'>
+    <p>Powered by <b>Google Gemini 2.5</b> • <b>LangChain</b> • <b>FastAPI</b></p>
+    <p><a href='https://langserve-creative-ai.onrender.com/docs' target='_blank'>📚 API Documentation</a></p>
+</div>
+""", unsafe_allow_html=True)
