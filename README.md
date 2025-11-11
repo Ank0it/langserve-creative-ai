@@ -384,7 +384,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 *"The best API is the one you actually deploy"*
 
 [![GitHub Stars](https://img.shields.io/github/stars/yourusername/langserve-creative-ai?style=social)](https://github.com/yourusername/langserve-creative-ai)
-[![GitHub Forks](https://img.shields.io/github/forks/yourusername/langserve-creative-ai?style=social)](https://github.com/yourusername/langserve-creative-ai)
+[![GitHub Forks](https://img.shields.io/github/forks/yourusername/langserve-creative-ai?style=social)](https://github.com/ank0it/langserve-creative-ai)
 
 **Made possible by:** Google Gemini • LangChain • FastAPI • Streamlit
 
