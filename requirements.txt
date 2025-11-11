@@ -5,3 +5,5 @@ langchain-google-genai
 langserve[all]
 python-dotenv
 streamlit
+
+## nothing more to add
